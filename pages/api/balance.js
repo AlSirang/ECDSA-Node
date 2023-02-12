@@ -1,10 +1,6 @@
 import nextConnect from "next-connect";
 
-const balances = {
-  "0x1": 100,
-  "0x2": 50,
-  "0x3": 75,
-};
+const balances = {};
 
 const router = nextConnect({
   onError: (err, req, res) => {
@@ -21,7 +17,12 @@ const router = nextConnect({
     const balance = balances[address] || 0;
     res.send({ balance });
   })
-  .post((req, res) => {})
+  .post((req, res) => {
+    const { address } = req.body;
+    const balance = Math.ceil(Math.random() * 100);
+    balances[address] = balance;
+    res.send({ balance });
+  })
   .put((req, res, next) => {
     try {
       const { sender, recipient, amount } = req.body;

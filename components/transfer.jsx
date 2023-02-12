@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { server } from "@/configs/axios.config";
+import { hashMessage } from "@/utils/cryptography-utils";
 
 function Transfer({ address, setBalance }) {
   const [sendAmount, setSendAmount] = useState("");
@@ -11,6 +12,7 @@ function Transfer({ address, setBalance }) {
     evt.preventDefault();
 
     try {
+      // const message = hashMessage();
       const {
         data: { balance },
       } = await server.put("/balance", {
@@ -34,7 +36,9 @@ function Transfer({ address, setBalance }) {
           placeholder="1, 2, 3..."
           value={sendAmount}
           onChange={setValue(setSendAmount)}
-        ></input>
+          type="number"
+          min="0"
+        />
       </label>
 
       <label>
@@ -43,7 +47,7 @@ function Transfer({ address, setBalance }) {
           placeholder="Type an address, for example: 0x2"
           value={recipient}
           onChange={setValue(setRecipient)}
-        ></input>
+        />
       </label>
 
       <input type="submit" className="button" value="Transfer" />
