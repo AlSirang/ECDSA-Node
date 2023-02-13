@@ -27,13 +27,19 @@ const router = nextConnect({
   })
   .put((req, res, next) => {
     try {
-      const { message, signature, recoveryBit, recipient, amount } = req.body;
+      const { message, sender, signature, recoveryBit, recipient, amount } =
+        req.body;
 
-      const sender = recoverPublicKey(
+      const signatureWallet = recoverPublicKey(
         message,
         hexToBytes(signature),
         recoveryBit
       );
+
+      if (sender !== signatureWallet)
+        return res.status(400).send({
+          message: "signature wallet and selected account do not match",
+        });
 
       setInitialBalance(sender);
       setInitialBalance(recipient);

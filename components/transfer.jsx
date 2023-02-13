@@ -3,7 +3,7 @@ import { server } from "@/configs/axios.config";
 import { decryptText, signMessage } from "@/utils/cryptography-utils";
 import { toHex } from "ethereum-cryptography/utils";
 
-function Transfer({ privateKey, setBalance }) {
+function Transfer({ address, privateKey, setBalance }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
@@ -23,6 +23,7 @@ function Transfer({ privateKey, setBalance }) {
         data: { balance },
       } = await server.put("/balance", {
         amount: parseInt(sendAmount),
+        sender: address,
         recipient,
         message,
         signature: toHex(signature),
