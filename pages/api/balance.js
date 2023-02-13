@@ -1,3 +1,5 @@
+import { recoverPublicKey } from "@/utils/cryptography-utils";
+import { hexToBytes } from "ethereum-cryptography/utils";
 import nextConnect from "next-connect";
 
 const balances = {};
@@ -25,7 +27,13 @@ const router = nextConnect({
   })
   .put((req, res, next) => {
     try {
-      const { sender, recipient, amount } = req.body;
+      const { message, signature, recoveryBit, recipient, amount } = req.body;
+
+      const sender = recoverPublicKey(
+        message,
+        hexToBytes(signature),
+        recoveryBit
+      );
 
       setInitialBalance(sender);
       setInitialBalance(recipient);

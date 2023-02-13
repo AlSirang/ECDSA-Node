@@ -19,7 +19,6 @@ function Wallet({ address, setWalletInfo, balance, setBalance }) {
       privateKey,
       address,
     });
-    console.log(address);
     if (address) {
       const {
         data: { balance },

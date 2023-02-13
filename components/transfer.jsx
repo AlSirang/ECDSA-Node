@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { server } from "@/configs/axios.config";
-import { hashMessage } from "@/utils/cryptography-utils";
+import { decryptText, signMessage } from "@/utils/cryptography-utils";
+import { toHex } from "ethereum-cryptography/utils";
 
-function Transfer({ address, setBalance }) {
+function Transfer({ privateKey, setBalance }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
@@ -12,13 +13,20 @@ function Transfer({ address, setBalance }) {
     evt.preventDefault();
 
     try {
-      // const message = hashMessage();
+      const privateKeyDecrypted = decryptText(privateKey);
+      const message = `Transfer ${sendAmount} to ${recipient}`;
+      const [signature, recoveryBit] = await signMessage(
+        message,
+        privateKeyDecrypted
+      );
       const {
         data: { balance },
       } = await server.put("/balance", {
-        sender: address,
         amount: parseInt(sendAmount),
         recipient,
+        message,
+        signature: toHex(signature),
+        recoveryBit,
       });
       setBalance(balance);
     } catch (ex) {

@@ -29,10 +29,10 @@ export async function signMessage(msg, privateKey) {
  * @param {string} signature is signature of `message` signed
  * @param {string} recoveryBit is the recovery bit
  */
-export function recoverKey(message, signature, recoveryBit) {
+export function recoverPublicKey(message, signature, recoveryBit) {
   const msgHash = hashMessage(message);
-
-  return secp.recoverPublicKey(msgHash, signature, recoveryBit);
+  const publicKeyArray = secp.recoverPublicKey(msgHash, signature, recoveryBit);
+  return formatePublicKey(publicKeyArray);
 }
 
 /**
@@ -41,10 +41,14 @@ export function recoverKey(message, signature, recoveryBit) {
  */
 export const getPublicKeyHex = (privateKey) => {
   const publicKey = secp.getPublicKey(privateKey);
-  const pubKeyHash = keccak256(publicKey.slice(1));
+  return formatePublicKey(publicKey);
+};
+
+function formatePublicKey(publicKeyRaw) {
+  const pubKeyHash = keccak256(publicKeyRaw.slice(1));
   const length = pubKeyHash.length;
   return "0x" + toHex(pubKeyHash.slice(length - 20, length));
-};
+}
 
 /**
  * @dev it creates ethereum address from hex private key
