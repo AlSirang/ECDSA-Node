@@ -82,6 +82,24 @@ function Wallet({ address, setWalletInfo, balance, setBalance }) {
     } catch (err) {}
   };
 
+  const copyButtonRef = useRef(null);
+  const setTimeoutId = useRef(null);
+  const onCopy = () => {
+    navigator.clipboard.writeText(address).then(
+      function () {
+        copyButtonRef.current.style.display = "inline-block";
+        clearTimeout(setTimeoutId.current);
+
+        setTimeoutId.current = setTimeout(() => {
+          copyButtonRef.current.style.display = "none";
+        }, 1000);
+      },
+      function (err) {
+        console.error("Async: Could not copy text: ", err);
+      }
+    );
+  };
+
   return (
     <div className="container wallet">
       <h1>Your Wallet</h1>
@@ -101,9 +119,16 @@ function Wallet({ address, setWalletInfo, balance, setBalance }) {
 
       <div className="balance">Balance: {balance}</div>
 
-      <div className="container-button">
+      <div className="container-button buttons-container-flex">
         <button className="button-gen-wallet" onClick={onCreateKey}>
           Generate Wallet
+        </button>
+
+        <button className="button-gen-outline" onClick={onCopy}>
+          Copy Address&nbsp;
+          <span ref={copyButtonRef} style={{ display: "none" }}>
+            &#x2705;
+          </span>
         </button>
       </div>
     </div>

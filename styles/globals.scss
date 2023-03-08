@@ -77,7 +77,8 @@ select {
 }
 
 .button,
-.button-gen-wallet {
+.button-gen-wallet,
+.button-gen-outline {
   background-color: #319795;
   color: white;
   border-radius: 0.125rem;
@@ -92,9 +93,17 @@ select {
   }
 }
 
+.button-gen-outline {
+  border: 1px solid #319795;
+  background-color: white;
+  color: #319795;
+  padding: 9px 20px;
+}
+
 .button {
   display: inline-flex;
   text-transform: uppercase;
+  max-width: fit-content;
 }
 
 .button-gen-wallet {
@@ -103,4 +112,9 @@ select {
 
 .container-button {
   margin-top: 10px;
+}
+
+.buttons-container-flex {
+  display: flex;
+  gap: 10px;
 }
