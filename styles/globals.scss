@@ -1,8 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Muli", sans-serif;
   font-weight: 300;
   background-color: #e2e8f0;
   padding: 40px;
+  box-sizing: border-box;
 }
 
 label {
@@ -18,19 +23,19 @@ label {
   display: flex;
   max-width: 1400px;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 15px;
   margin: 0 auto;
 }
 
 .container {
   flex-grow: 1;
-  margin: 0 20px;
   background-color: #fff;
   border: 1px solid #cbd5e0;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   border-radius: 0.375rem;
   padding: 40px;
 
+  flex-basis: 49%;
   label {
     margin: 10px 0;
   }
