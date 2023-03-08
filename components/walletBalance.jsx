@@ -21,7 +21,7 @@ function WalletBalance() {
       <h1>Check Wallet Balance</h1>
 
       <label htmlFor="wallet">
-        Enter Wallet Addresses
+        Enter Wallet Address
         <input
           type="text"
           name="wallet"
